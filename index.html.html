@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altın Hesaplama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .profit {
+            font-size: 16px;
+            color: #ff6347; /* Kazanç rengini belirleyelim */
+            margin-top: 10px;
+            text-align: center;
+        }
+        /* Responsive Design: Mobil uyumlu düzenlemeler */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            input[type="number"], input[type="text"], button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .result {
+                font-size: 16px;
+            }
+            .profit {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Altın Hesaplama</h1>
+        <label for="altinMiktar">Altın Miktarı (gram):</label>
+        <input type="number" id="altinMiktar" placeholder="Altın miktarını girin" />
+
+        <!-- Saflık oranı sabit olarak belirlenmiştir ancak değiştirilebilir -->
+        <label for="saflikOrani">Saflık Oranı (milyem):</label>
+        <input type="number" id="saflikOrani" value="0.916" step="0.001" />
+
+        <label for="gramFiyati">Gram Fiyatı (TL):</label>
+        <input type="number" id="gramFiyati" placeholder="Gram fiyatını girin" />
+
+        <label for="iscilikOrani">İşçilik Oranı (%):</label>
+        <input type="number" id="iscilikOrani" placeholder="İşçilik oranını girin (örneğin: 0.20)" step="0.01" />
+
+        <button id="hesaplaBtn">Hesapla</button>
+
+        <!-- Sonuç kutusunu ekledik -->
+        <div id="sonuc" class="result">Toplam Maliyet: </div>
+        <!-- İşçilik TL'yi ekledik -->
+        <div id="profit" class="profit">İşçilik TL: </div>
+    </div>
+
+    <script>
+        document.getElementById("hesaplaBtn").addEventListener("click", function() {
+            var altinMiktar = parseFloat(document.getElementById("altinMiktar").value);
+            var saflikOrani = parseFloat(document.getElementById("saflikOrani").value);
+            var gramFiyati = parseFloat(document.getElementById("gramFiyati").value);
+            var iscilikOrani = parseFloat(document.getElementById("iscilikOrani").value);
+
+            // Girilen değerlerin doğruluğunu kontrol et
+            if (isNaN(altinMiktar) || isNaN(saflikOrani) || isNaN(gramFiyati) || isNaN(iscilikOrani)) {
+                alert("Lütfen tüm alanları doğru şekilde doldurduğunuzdan emin olun.");
+                return;
+            }
+
+            // Saf altın değerini hesapla
+            var safAltinDegeri = altinMiktar * saflikOrani;
+
+            // Altının maliyeti
+            var altinMaliyeti = safAltinDegeri * gramFiyati;
+
+            // İşçilik maliyeti (TL)
+            var iscilikMaliyeti = iscilikOrani * gramFiyati;
+
+            // Toplam maliyeti hesapla
+            var toplamMaliyet = altinMaliyeti + iscilikMaliyeti;
+
+            // Sonucu ekranda göster
+            document.getElementById("sonuc").innerHTML = "Toplam Maliyet: " + toplamMaliyet.toFixed(2) + " TL";
+            document.getElementById("profit").innerHTML = "İşçilik TL: " + iscilikMaliyeti.toFixed(2) + " TL";
+        });
+    </script>
+
+</body>
+</html>
